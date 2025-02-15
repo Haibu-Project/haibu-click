@@ -16,7 +16,7 @@ interface HexagonsProps {
 }
 
 const Hexagons: React.FC<HexagonsProps> = ({
-  direction = 'right',
+  direction = 'left',
   speed = 1,
   borderColor = '#999',
   hexSize = 40,
