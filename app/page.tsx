@@ -10,9 +10,11 @@ export default function Home() {
   const [frame, setFrame] = useState(0);
   const [score, setScore] = useState(0);
   const [jars, setJars] = useState<number[]>([]);
+  const [isWindowFocused, setIsWindowFocused] = useState(true);
 
   const handleClick = () => {
     setFrame((prevFrame) => prevFrame + 1);
+    setScore((prevScore) => prevScore + 1); // Increment score by 1 for each click
   };
 
   const handleCatch = (id: number) => {
@@ -21,19 +23,33 @@ export default function Home() {
   };
 
   useEffect(() => {
+    const handleFocus = () => setIsWindowFocused(true);
+    const handleBlur = () => setIsWindowFocused(false);
+
+    window.addEventListener("focus", handleFocus);
+    window.addEventListener("blur", handleBlur);
+
+    return () => {
+      window.removeEventListener("focus", handleFocus);
+      window.removeEventListener("blur", handleBlur);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isWindowFocused) return;
+
     const interval = setInterval(() => {
       setJars((prevJars) => [...prevJars, Date.now()]);
     }, 2000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isWindowFocused]);
 
   return (
     <div className="relative w-full h-screen overflow-hidden" onClick={handleClick}>
       {/* Contenedor para el título y las partículas */}
       <div className="relative w-full h-full">
         {/* Título */}
-        Haibu
         {/* Componente de fondo de hexagonos */}
         <Hexagons />
         {/* Componente de la abeja */}

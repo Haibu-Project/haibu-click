@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import honeyJarImage from "../assets/tarro-miel.png";
 
 interface HoneyJarProps {
@@ -15,15 +16,14 @@ const HoneyJar: React.FC<HoneyJarProps> = ({ onCatch, id }) => {
         const newLeft = parseFloat(prevPosition.left) - 1;
         if (newLeft < -10) {
           clearInterval(interval);
-          onCatch(id); // Trigger onCatch to remove the jar
-          return { ...prevPosition, left: "100%" };
+          return prevPosition; // Do not call onCatch if the jar is out of bounds
         }
         return { ...prevPosition, left: `${newLeft}%` };
       });
     }, 50);
 
     return () => clearInterval(interval);
-  }, [id, onCatch]);
+  }, [id]);
 
   useEffect(() => {
     const checkCollision = () => {
@@ -56,11 +56,11 @@ const HoneyJar: React.FC<HoneyJarProps> = ({ onCatch, id }) => {
         left: position.left,
         transform: "translate(-50%, -50%)",
         cursor: "pointer",
-        width: "50px",
-        height: "50px",
+        width: "70px",
+        height: "70px",
       }}
     >
-      <img src={honeyJarImage.src} alt="Honey Jar" style={{ width: "100%", height: "100%" }} />
+      <Image src={honeyJarImage} alt="Honey Jar" layout="fill" objectFit="contain" />
     </div>
   );
 };

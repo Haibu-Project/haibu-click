@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 type CanvasStrokeStyle = string | CanvasGradient | CanvasPattern;
 
@@ -12,7 +12,6 @@ interface HexagonsProps {
   speed?: number;
   borderColor?: CanvasStrokeStyle;
   hexSize?: number;
-  hoverFillColor?: CanvasStrokeStyle;
 }
 
 const Hexagons: React.FC<HexagonsProps> = ({
@@ -20,12 +19,10 @@ const Hexagons: React.FC<HexagonsProps> = ({
   speed = 1,
   borderColor = '#999',
   hexSize = 40,
-  hoverFillColor = '#222',
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const requestRef = useRef<number | null>(null);
   const gridOffset = useRef<GridOffset>({ x: 0, y: 0 });
-  const [hoveredHex, setHoveredHex] = useState<GridOffset | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -41,7 +38,7 @@ const Hexagons: React.FC<HexagonsProps> = ({
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    const drawHexagon = (x: number, y: number, fill: boolean) => {
+    const drawHexagon = (x: number, y: number) => {
       const a = (2 * Math.PI) / 6;
       ctx.beginPath();
       for (let i = 0; i < 6; i++) {
@@ -51,10 +48,6 @@ const Hexagons: React.FC<HexagonsProps> = ({
         );
       }
       ctx.closePath();
-      if (fill) {
-        ctx.fillStyle = hoverFillColor;
-        ctx.fill();
-      }
       ctx.strokeStyle = borderColor;
       ctx.stroke();
     };
@@ -72,15 +65,7 @@ const Hexagons: React.FC<HexagonsProps> = ({
           const hexX = x + offsetX - (gridOffset.current.x % horizDist);
           const hexY = y - (gridOffset.current.y % vertDist);
 
-          const q = ((hexX - offsetX) * 2) / 3 / hexSize;
-          const r = ((hexY - hexHeight / 2) * 2) / 3 / hexSize;
-
-          const isHovered =
-            hoveredHex &&
-            Math.round(q) === hoveredHex.x &&
-            Math.round(r) === hoveredHex.y;
-
-          drawHexagon(hexX, hexY, !!isHovered);
+          drawHexagon(hexX, hexY);
         }
       }
     };
@@ -123,33 +108,13 @@ const Hexagons: React.FC<HexagonsProps> = ({
       requestRef.current = requestAnimationFrame(updateAnimation);
     };
 
-    const handleMouseMove = (event: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      const mouseX = event.clientX - rect.left + gridOffset.current.x;
-      const mouseY = event.clientY - rect.top + gridOffset.current.y;
-
-      const q = ((mouseX * 2) / 3) / hexSize;
-      const r = ((mouseY * 2) / 3) / hexSize;
-
-      setHoveredHex({ x: Math.round(q), y: Math.round(r) });
-    };
-
-    const handleMouseLeave = () => {
-      setHoveredHex(null);
-    };
-
-    canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('mouseleave', handleMouseLeave);
-
     requestRef.current = requestAnimationFrame(updateAnimation);
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
-      canvas.removeEventListener('mousemove', handleMouseMove);
-      canvas.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [direction, speed, borderColor, hoverFillColor, hexSize]);
+  }, [direction, speed, borderColor, hexSize]);
 
   return <canvas ref={canvasRef} className="w-full h-full border-none block"></canvas>;
 };
