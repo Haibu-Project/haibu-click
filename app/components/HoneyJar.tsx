@@ -8,7 +8,7 @@ interface HoneyJarProps {
 }
 
 const HoneyJar: React.FC<HoneyJarProps> = ({ onCatch, id }) => {
-  const [position, setPosition] = useState({ top: `${Math.random() * 100}%`, left: "100%" });
+  const [position, setPosition] = useState({ top: `${20 + Math.random() * 60}%`, left: "100%" });
 
   useEffect(() => {
     const interval = setInterval(() => {
