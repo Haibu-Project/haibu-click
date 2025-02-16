@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react';
 import backgroundImage from "../assets/fondo-colmena.jpg";
 
 interface HexagonsProps {
-  direction?: 'diagonal' | 'up' | 'right' | 'down' | 'left';
   speed?: number;
 }
 
 const Hexagons: React.FC<HexagonsProps> = ({
-  direction = 'left',
   speed = 1,
 }) => {
   const [backgroundPosition, setBackgroundPosition] = useState(0);
