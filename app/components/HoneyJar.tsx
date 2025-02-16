@@ -33,10 +33,10 @@ const HoneyJar: React.FC<HoneyJarProps> = ({ onCatch, id }) => {
         const beeRect = beeElement.getBoundingClientRect();
         const jarRect = jarElement.getBoundingClientRect();
         if (
-          beeRect.x < jarRect.x + jarRect.width &&
-          beeRect.x + beeRect.width > jarRect.x &&
-          beeRect.y < jarRect.y + jarRect.height &&
-          beeRect.y + beeRect.height > jarRect.y
+          beeRect.left < jarRect.left + jarRect.width &&
+          beeRect.left + beeRect.width > jarRect.left &&
+          beeRect.top < jarRect.top + jarRect.height &&
+          beeRect.top + beeRect.height > jarRect.top
         ) {
           onCatch(id);
         }
@@ -58,6 +58,7 @@ const HoneyJar: React.FC<HoneyJarProps> = ({ onCatch, id }) => {
         cursor: "pointer",
         width: "70px",
         height: "70px",
+        userSelect: "none", 
       }}
     >
       <Image src={honeyJarImage} alt="Honey Jar" layout="fill" objectFit="contain" />

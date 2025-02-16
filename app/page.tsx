@@ -50,6 +50,7 @@ export default function Home() {
       {/* Contenedor para el título y las partículas */}
       <div className="relative w-full h-full">
         {/* Título */}
+        <ScoreBoard score={score} />
         {/* Componente de fondo de hexagonos */}
         <Hexagons />
         {/* Componente de la abeja */}
@@ -58,8 +59,6 @@ export default function Home() {
         {jars.map((id) => (
           <HoneyJar key={id} id={id} onCatch={handleCatch} />
         ))}
-        {/* Componente de la tabla de puntaje */}
-        <ScoreBoard score={score} />
       </div>
     </div>
   );

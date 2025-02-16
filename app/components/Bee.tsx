@@ -35,8 +35,9 @@ const Bee: React.FC<BeeProps> = ({ frame }) => {
         transform: "translate(-50%, -50%)",
         cursor: "pointer",
         transition: "top 0.7s, left 0.7s",
-        width: "130px", // Fixed width
+        width: "170px", // Fixed width
         height: "150px", // Fixed height
+        userSelect: "none", // Prevent selection
       }}
     >
       <Image src={frames[frame % frames.length]} alt="Bee frame" layout="fill" objectFit="contain" />
