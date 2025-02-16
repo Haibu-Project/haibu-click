@@ -11,10 +11,16 @@ interface BeeProps {
 
 const Bee: React.FC<BeeProps> = ({ frame, lift, setLift }) => {
   const frames = [frame1, frame2]; 
-  const [position, setPosition] = useState({ top: window.innerHeight / 2, left: window.innerWidth / 2 });
+  const [position, setPosition] = useState({ top: 0, left: 0 });
   const [velocity, setVelocity] = useState(0);
   const gravity = 1.5; 
   const liftForce = -10;
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setPosition({ top: window.innerHeight / 2, left: window.innerWidth / 2 });
+    }
+  }, []);
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -43,14 +49,14 @@ const Bee: React.FC<BeeProps> = ({ frame, lift, setLift }) => {
     }, 50);
 
     return () => clearInterval(interval);
-  }, [velocity]);
+  }, [velocity, gravity]);
 
   useEffect(() => {
     if (lift) {
       setVelocity(liftForce);
       setLift(false);
     }
-  }, [lift, setLift]);
+  }, [lift, setLift, liftForce]);
 
   return (
     <div
