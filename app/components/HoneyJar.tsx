@@ -61,7 +61,7 @@ const HoneyJar: React.FC<HoneyJarProps> = ({ onCatch, id }) => {
         userSelect: "none", 
       }}
     >
-      <Image src={honeyJarImage} alt="Honey Jar" layout="fill" objectFit="contain" />
+      <Image src={honeyJarImage} alt="Honey Jar" layout="fill" objectFit="contain" draggable="false" />
     </div>
   );
 };

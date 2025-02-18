@@ -7,9 +7,11 @@ interface BeeProps {
   frame: number;
   lift: boolean;
   setLift: (lift: boolean) => void;
+  onFall: () => void;
+  isPaused: boolean;
 }
 
-const Bee: React.FC<BeeProps> = ({ frame, lift, setLift }) => {
+const Bee: React.FC<BeeProps> = ({ frame, lift, setLift, onFall, isPaused }) => {
   const frames = [frame1, frame2]; 
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [velocity, setVelocity] = useState(0);
@@ -24,6 +26,8 @@ const Bee: React.FC<BeeProps> = ({ frame, lift, setLift }) => {
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
+      if (isPaused) return;
+
       const windowWidth = window.innerWidth;
       const maxLeft = windowWidth * 3 / 4 - 65; // 3/4 of the window width minus half the bee width
 
@@ -37,19 +41,24 @@ const Bee: React.FC<BeeProps> = ({ frame, lift, setLift }) => {
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, []);
+  }, [isPaused]);
 
   useEffect(() => {
+    if (isPaused) return;
+
     const interval = setInterval(() => {
       setVelocity((prevVelocity) => prevVelocity + gravity);
-      setPosition((prevPosition) => ({
-        ...prevPosition,
-        top: Math.min(prevPosition.top + velocity, window.innerHeight - 150), // Prevent bee from falling below the screen
-      }));
+      setPosition((prevPosition) => {
+        const newTop = prevPosition.top + velocity;
+        if (newTop >= window.innerHeight) {
+          onFall(); 
+        }
+        return { ...prevPosition, top: newTop };
+      });
     }, 50);
 
     return () => clearInterval(interval);
-  }, [velocity, gravity]);
+  }, [velocity, gravity, onFall, isPaused]);
 
   useEffect(() => {
     if (lift) {
@@ -73,7 +82,7 @@ const Bee: React.FC<BeeProps> = ({ frame, lift, setLift }) => {
         userSelect: "none", // Prevent selection
       }}
     >
-      <Image src={frames[frame % frames.length]} alt="Bee frame" layout="fill" objectFit="contain" />
+      <img src={frames[frame % frames.length].src} alt="Bee frame" style={{ width: "100%", height: "100%", pointerEvents: "none", userSelect: "none" }} draggable="false" />
     </div>
   );
 };

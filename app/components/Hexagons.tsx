@@ -26,6 +26,8 @@ const Hexagons: React.FC<HexagonsProps> = ({
         backgroundPosition: `${backgroundPosition}% 0`,
         backgroundRepeat: "repeat-x",
         backgroundSize: "cover",
+        userSelect: "none", 
+        pointerEvents: "none", 
       }}
     />
   );
