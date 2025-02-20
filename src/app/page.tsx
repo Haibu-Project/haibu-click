@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import Hexagons from "./components/Hexagons";
 import Bee from "./components/Bee";
