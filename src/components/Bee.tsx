@@ -76,9 +76,9 @@ const Bee: React.FC<BeeProps> = ({ frame, lift, setLift, onFall, isPaused }) => 
         transform: "translate(-50%, -50%)",
         cursor: "pointer",
         transition: "top 0.05s, left 0.7s",
-        width: "170px", // Fixed width
-        height: "150px", // Fixed height
-        userSelect: "none", // Prevent selection
+        width: "170px", 
+        height: "150px", 
+        userSelect: "none", 
       }}
     >
       <img src={frames[frame % frames.length].src} alt="Bee frame" style={{ width: "100%", height: "100%", pointerEvents: "none", userSelect: "none" }} draggable="false" />

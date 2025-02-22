@@ -1,9 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import haibuLogo from "../assets/LogoHaibu.jpg";
-import { InteractiveGridPattern } from "@/components/magicui/interactive-grid-pattern";
 import { BlurFade } from "@/components/magicui/blur-fade";
 import { BorderBeam } from "@/components/magicui/border-beam";
 import { RetroGrid } from "@/components/magicui/retro-grid";
@@ -26,12 +23,10 @@ export default function LoginPage() {
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        // Pause background animations
         document.querySelectorAll(".background-animation").forEach((el) => {
           (el as HTMLElement).style.animationPlayState = "paused";
         });
       } else {
-        // Resume background animations
         document.querySelectorAll(".background-animation").forEach((el) => {
           (el as HTMLElement).style.animationPlayState = "running";
         });
@@ -44,7 +39,6 @@ export default function LoginPage() {
     };
   }, []);
 
-  // Envía el código al email
   const handleSendCode = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -68,7 +62,6 @@ export default function LoginPage() {
     }
   };
 
-  // Verifica el código y si es correcto, llama a la API de Chopin y luego registra al usuario
   const handleVerifyCode = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -79,13 +72,11 @@ export default function LoginPage() {
         body: JSON.stringify({ email, code }),
       });
       if (verifyRes.ok) {
-        // Código verificado, ahora llamamos a la API de Chopin
         const loginRes = await fetch("http://localhost:4000/_chopin/login");
         if (loginRes.ok) {
           const data = await loginRes.json();
           console.log("Response from _chopin/login:", data);
 
-          // Ahora registramos al usuario con el email, username y address
           const registerRes = await fetch("/api/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -230,7 +221,7 @@ export default function LoginPage() {
       )}
 
       {step === "registered" && (
-        <BlurFade className="mt-8 z-10">
+        <BlurFade className="mt-8 z-10 flex items-center justify-center min-h-screen">
           <div className="relative rounded-lg">
             <BorderBeam className="rounded-lg" />
             <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">

@@ -1,11 +1,11 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
-import Hexagons from "./components/Hexagons";
-import Bee from "./components/Bee";
-import HoneyJar from "./components/HoneyJar";
-import ScoreBoard from "./components/ScoreBoard";
-import Leaderboard from "./components/Leaderboard";
-import Modal from "./components/Modal";
+import Hexagons from "../components/Hexagons";
+import Bee from "../components/Bee";
+import HoneyJar from "../components/HoneyJar";
+import ScoreBoard from "../components/ScoreBoard";
+import Leaderboard from "../components/Leaderboard";
+import Modal from "../components/Modal";
 
 const mockScores = [
   { name: "Player1", score: 150 },
@@ -23,13 +23,13 @@ export default function Home() {
   const [beeLift, setBeeLift] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const [beeKey, setBeeKey] = useState(0); // Key to force re-render the Bee component
+  const [beeKey, setBeeKey] = useState(0);
 
   const handleClick = () => {
     if (isPaused) return; 
     setFrame((prevFrame) => prevFrame + 1);
-    setScore((prevScore) => prevScore + 1); // Increment score by 1 for each click
-    setBeeLift(true); // Trigger bee lift
+    setScore((prevScore) => prevScore + 1);
+    setBeeLift(true);
   };
 
   const handleCatch = (id: number) => {
@@ -37,12 +37,14 @@ export default function Home() {
     setJars((prevJars) => prevJars.filter((jarId) => jarId !== id));
   };
 
-  const handleBeeFall = useCallback(() => {
-    setIsPaused(true);
-    setTimeout(() => {
-      setShowModal(true);
-    }, 500);
-  }, []);
+  const handleBeeFall = () => {
+    requestAnimationFrame(() => {
+      setIsPaused(true);
+      setTimeout(() => {
+        setShowModal(true);
+      }, 500);
+    });
+  };
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -84,13 +86,9 @@ export default function Home() {
 
   return (
     <div className="relative w-full h-screen overflow-hidden select-none" onMouseDown={handleClick}>
-      {/* Contenedor para el título y las partículas */}
       <div className="relative w-full h-full">
-        {/* Título */}
         <ScoreBoard score={score} />
-        {/* Componente de fondo de hexagonos */}
         <Hexagons />
-        {/* Componente de la abeja */}
         {!isPaused && (
           <Bee
             key={beeKey}
@@ -101,14 +99,11 @@ export default function Home() {
             isPaused={isPaused}
           />
         )}
-        {/* Componentes de los tarros de miel */}
         {jars.map((id) => (
           <HoneyJar key={id} id={id} onCatch={handleCatch} />
         ))}
-        {/* Componente del leaderboard */}
         <Leaderboard scores={mockScores} />
       </div>
-      {/* Modal */}
       <Modal show={showModal} onClose={handleCloseModal} onContinue={handleContinue} />
     </div>
   );
