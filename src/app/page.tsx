@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Hexagons from "./components/Hexagons";
 import Bee from "./components/Bee";
 import HoneyJar from "./components/HoneyJar";
@@ -39,12 +39,12 @@ export default function Home() {
     setJars((prevJars) => prevJars.filter((jarId) => jarId !== id));
   };
 
-  const handleBeeFall = () => {
+  const handleBeeFall = useCallback(() => {
     setIsPaused(true);
     setTimeout(() => {
       setShowModal(true);
     }, 500);
-  };
+  }, []);
 
   const handleCloseModal = () => {
     setShowModal(false);
