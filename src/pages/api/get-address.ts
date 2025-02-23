@@ -1,12 +1,14 @@
-import { NextResponse } from "next/server";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { getAddress } from "@chopinframework/next";
 
-export async function GET() {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
+    if (req.method !== "GET") return res.status(405).json({ error: "Método no permitido" });
+
     const address = await getAddress();
-    return NextResponse.json({ address });
+    return res.status(200).json({ address });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: "Error fetching address" }, { status: 500 });
+    console.error("Error obteniendo dirección:", error);
+    return res.status(500).json({ error: "Error interno del servidor" });
   }
 }

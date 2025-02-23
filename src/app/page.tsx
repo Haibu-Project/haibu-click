@@ -1,15 +1,10 @@
-import { getAddress } from "@chopinframework/next";
+"use client";
+import Game from "@/components/features/game/Game";
+import { useAddress } from "@chopinframework/react";
 
-export default async function MyComponent() {
-  const address = await getAddress();
-
+export default function Home() {
+  const { address, isLoading, isLoginError, login, logout, revalidate } = useAddress();
   return (
-    <div>
-      {address ? (
-        <p>Logged in as {address}</p>
-      ) : (
-        <p>Not logged in</p>
-      )}
-    </div>
+    <Game walletAddress={address}/>
   );
 }

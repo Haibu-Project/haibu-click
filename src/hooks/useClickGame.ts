@@ -1,7 +1,6 @@
-"use client";
 import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
-import { Oracle } from "@chopinframework/next"; // Importamos Chopin
+import { Oracle } from "@chopinframework/next";
 
 const socket = io("wss://haibu-backend-production.up.railway.app", {
   transports: ["websocket"],
@@ -23,8 +22,7 @@ export function useClickGame(walletAddress: string) {
   }, [walletAddress]);
 
   async function sendClick(isJar: boolean = false) {
-    // 🕒 Obtener timestamp desde Chopin
-    const timestamp = await Oracle.now();
+    const timestamp = Date.now();
 
     socket.emit("click", { walletAddress, isJar, timestamp });
   }
