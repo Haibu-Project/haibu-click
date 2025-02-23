@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import honeyJarImage from "../assets/tarro-miel.png";
+import honeyJarImage from "../assets/Honey-Jar.png";
 
 interface HoneyJarProps {
   onCatch: (id: number) => void;

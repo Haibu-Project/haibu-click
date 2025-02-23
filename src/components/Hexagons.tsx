@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import backgroundImage from "../assets/fondo-colmena.jpg";
+import backgroundImage from "../assets/Hive-Background.jpg";
 
 interface HexagonsProps {
   speed?: number;

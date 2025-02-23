@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import tarroMiel from "../../app/assets/tarro-miel.png";
+import HoneyJar from "../../assets/Honey-Jar.png";
 import { useEffect, useState } from "react";
 
 interface RetroGridProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -92,7 +92,7 @@ export function RetroGrid({
           height: "30px",
         }}
       >
-        <Image src={tarroMiel} alt="Honey Jar" layout="fill" objectFit="contain" />
+        <Image src={HoneyJar} alt="Honey Jar" layout="fill" objectFit="contain" />
       </div>
     ));
   };

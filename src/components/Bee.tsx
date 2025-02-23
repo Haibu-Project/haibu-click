@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import Image from "next/image";
-import frame1 from "../assets/pixil-frame-0_final.png";
-import frame2 from "../assets/pixil-frame-1_final.png";
+import frame1 from "../assets/Bee-frame1.png";
+import frame2 from "../assets/Bee-frame2.png";
 
 interface BeeProps {
   frame: number;
@@ -29,11 +28,11 @@ const Bee: React.FC<BeeProps> = ({ frame, lift, setLift, onFall, isPaused }) => 
       if (isPaused) return;
 
       const windowWidth = window.innerWidth;
-      const maxLeft = windowWidth * 3 / 4 - 65; // 3/4 of the window width minus half the bee width
+      const maxLeft = windowWidth * 3 / 4 - 65; 
 
       setPosition((prevPosition) => ({
         ...prevPosition,
-        left: Math.min(event.clientX - 20, maxLeft), // Offset the bee 20px to the left of the mouse and limit to maxLeft
+        left: Math.min(event.clientX - 20, maxLeft), 
       }));
     };
 
@@ -77,9 +76,9 @@ const Bee: React.FC<BeeProps> = ({ frame, lift, setLift, onFall, isPaused }) => 
         transform: "translate(-50%, -50%)",
         cursor: "pointer",
         transition: "top 0.05s, left 0.7s",
-        width: "170px", // Fixed width
-        height: "150px", // Fixed height
-        userSelect: "none", // Prevent selection
+        width: "170px", 
+        height: "150px", 
+        userSelect: "none", 
       }}
     >
       <img src={frames[frame % frames.length].src} alt="Bee frame" style={{ width: "100%", height: "100%", pointerEvents: "none", userSelect: "none" }} draggable="false" />
