@@ -16,7 +16,6 @@ export default function VerifyLogin() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // ✅ Extrae el email de la URL
   const cleanEmail = searchParams.get("email") ?? "";
 
   const [formState, createFormSetter] = useFormSetter<FormState>({
@@ -39,7 +38,6 @@ export default function VerifyLogin() {
 
     setIsLoading(true);
     try {
-      // 🔹 **PASO 1: Verificar el código en `/api/verify-code`**
       const verifyRes = await fetch("/api/verify-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -57,7 +55,6 @@ export default function VerifyLogin() {
 
       console.log("Código verificado correctamente.");
 
-      // 🔹 **PASO 2: Autenticar usuario en Haibu Backend (`/api/auth/login`)**
       const loginRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -75,7 +72,6 @@ export default function VerifyLogin() {
       const loginData = await loginRes.json();
       console.log("Login Data:", loginData);
 
-      // ✅ **Acceder correctamente a `walletAddress`**
       const walletAddress = loginData.user?.walletAddress;
 
       if (!walletAddress) {
@@ -87,7 +83,6 @@ export default function VerifyLogin() {
 
       // 🔹 **PASO 3: Hacer login en Chopin con `walletAddress`**
       const loginAsRes = await fetch(`/_chopin/login?as=${walletAddress}`);
-      http://localhost:4000/_chopin/login?as=0x123
       if (loginAsRes.ok) {
         console.log("Login con Chopin exitoso!");
         router.push("/");
