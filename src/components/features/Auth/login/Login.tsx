@@ -58,7 +58,7 @@ export default function Login() {
           </div>
           {message && <p className="mt-4 text-center text-red-500">{message}</p>}
           <div className="mt-2 border-t pt-4 text-center">
-            <Link href="/Auth/register" >
+            <Link href="/auth/register" >
               <ShinyButton>
                   Register
               </ShinyButton>

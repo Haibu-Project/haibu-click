@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import VerifyCode from "@/components/features/Auth/register/VerifyCode";
 
 export default function VerifyCodePage() {
