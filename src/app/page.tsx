@@ -1,16 +1,15 @@
 import { getAddress } from "@chopinframework/next";
- 
 
-const address = await getAddress();
-export default function MyComponent() {
-  
- 
-    if (address) {
-        return (
-            <div>
-                <p>Logged in as {address}</p>
-            </div>
-        );
-    }
+export default async function MyComponent() {
+  const address = await getAddress();
 
+  return (
+    <div>
+      {address ? (
+        <p>Logged in as {address}</p>
+      ) : (
+        <p>Not logged in</p>
+      )}
+    </div>
+  );
 }
