@@ -22,7 +22,7 @@ export function useClickGame(walletAddress: string) {
   }, [walletAddress]);
 
   async function sendClick(isJar: boolean = false) {
-    const timestamp = Date.now();
+    const timestamp = await Date.now();
 
     socket.emit("click", { walletAddress, isJar, timestamp });
   }
