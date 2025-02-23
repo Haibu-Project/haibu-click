@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       html: `<p>Tu código de verificación es: <strong>${code}</strong></p>`,
     });
     console.log(`Código de verificación para ${email}: ${code}`);
-    return res.status(200).json({ success: true });
+    return res.status(200).json({ success: true, code });
   } catch (error) {
     console.error("Error al enviar correo:", error);
     return res.status(500).json({ error: "Error al enviar el correo" });
