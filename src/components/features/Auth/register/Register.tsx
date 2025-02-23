@@ -24,7 +24,7 @@ export default function RegisterComponent() {
       const data = await res.json();
       if (data.success) {
         localStorage.setItem("verificationCode", data.code);
-        router.push(`/Auth/verify-code?email=${formState.email}`);
+        router.push(`/auth/verify-code?email=${formState.email}&username=${formState.username}`);
       } else {
         setMessage("Error sending the code. Please try again.");
       }
