@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 
 interface LeaderboardEntry {
   walletAddress: string;
+  totalClicks: number;
+  jarClicks: number;
   score: number;
 }
 
@@ -12,15 +14,12 @@ export function useLeaderboard() {
   useEffect(() => {
     async function fetchLeaderboard() {
       try {
-        const response = await fetch("/api/clicks/leaderboard");
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/clicks/leaderboard`);
         if (!response.ok) throw new Error("Failed to fetch leaderboard");
-        const data = await response.json();
-        const leaderboardData = data.map((entry: any, index: number) => ({
-          walletAddress: entry.walletAddress,
-          score: entry._count.walletAddress,
-        }));
 
-        setLeaderboard(leaderboardData);
+        const data: LeaderboardEntry[] = await response.json();
+
+        setLeaderboard(data);
       } catch (error) {
         console.error("Error fetching leaderboard:", error);
       } finally {
