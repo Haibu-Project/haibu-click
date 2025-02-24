@@ -45,7 +45,7 @@ export default function VerifyCode() {
 
     setIsLoading(true);
     try {
-      // 🔹 Verify the code
+
       const verifyRes = await fetch("/api/verify-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

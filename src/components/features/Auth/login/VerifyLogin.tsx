@@ -81,7 +81,6 @@ export default function VerifyLogin() {
 
       console.log("Autenticando en Chopin con Wallet:", walletAddress);
 
-      // 🔹 **PASO 3: Hacer login en Chopin con `walletAddress`**
       const loginAsRes = await fetch(`/_chopin/login?as=${walletAddress}`);
       if (loginAsRes.ok) {
         console.log("Login con Chopin exitoso!");
