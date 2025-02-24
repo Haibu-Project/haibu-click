@@ -23,7 +23,9 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, onContinue }) => {
         <h2 className="text-2xl font-bold mb-4 text-black">Taking a Break</h2>
         <p className="mb-4 text-black">Your progress is saved. Do you want to continue?</p>
         <div className="relative mb-4">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={tutorialGif.src} alt="Tutorial" className="w-full h-auto rounded-lg" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={clickGif.src} alt="Click" className="absolute bottom-4 right-4 w-24 h-25" />
         </div>
         <div className="flex justify-end space-x-4">
