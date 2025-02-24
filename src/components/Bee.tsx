@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import frame1 from "../assets/Bee-frame1.png";
 import frame2 from "../assets/Bee-frame2.png";
+import Image from "next/image";
 
 interface BeeProps {
   frame: number;
@@ -81,7 +82,7 @@ const Bee: React.FC<BeeProps> = ({ frame, lift, setLift, onFall, isPaused }) => 
         userSelect: "none", 
       }}
     >
-      <img src={frames[frame % frames.length].src} alt="Bee frame" style={{ width: "100%", height: "100%", pointerEvents: "none", userSelect: "none" }} draggable="false" />
+      <Image src={frames[frame % frames.length].src} alt="Bee frame" style={{ width: "100%", height: "100%", pointerEvents: "none", userSelect: "none" }} draggable="false" />
     </div>
   );
 };

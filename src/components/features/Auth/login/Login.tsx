@@ -61,15 +61,10 @@ export default function Login() {
           </div>
           {message && <p className="mt-4 text-center text-red-500">{message}</p>}
           <div className="mt-2 border-t pt-4 text-center">
-<<<<<<< HEAD
-            <Link href="/auth/register">
-              <ShinyButton>Register</ShinyButton>
-=======
             <Link href="/auth/register" >
               <ShinyButton>
                   Register
               </ShinyButton>
->>>>>>> b7bc05e (Save local changes before pulling)
             </Link>
           </div>
         </form>

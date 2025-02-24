@@ -16,7 +16,7 @@ export default function VerifyLogin() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const cleanEmail = searchParams.get("email") ?? "";
+  const cleanEmail = searchParams?.get("email") ?? "";
 
   const [formState, createFormSetter] = useFormSetter<FormState>({
     email: cleanEmail,
@@ -115,7 +115,7 @@ export default function VerifyLogin() {
             required
           />
           <div className="flex justify-center">
-            <SimpleButton isLoading={isLoading} disabled={isLoading}>Verify</SimpleButton>
+            <SimpleButton isLoading={isLoading} >Verify</SimpleButton>
           </div>
           {message && <p className="mt-4 text-center text-red-500">{message}</p>}
         </form>
