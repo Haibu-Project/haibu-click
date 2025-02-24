@@ -1,28 +1,22 @@
-import React from "react";
-import { useRouter } from "next/navigation";
-
 interface LeaderboardProps {
-  scores: { name: string; score: number }[];
+  scores: { walletAddress: string; score: number }[];
 }
 
-const Leaderboard: React.FC<LeaderboardProps> = ({ scores }) => {
-  const router = useRouter();
+export default function Leaderboard({ scores }: LeaderboardProps) {
   return (
-    <div className="absolute top-0 right-0 m-4 p-4 bg-white bg-opacity-50 rounded shadow w-64 select-none">
-      <h2 className="text-2xl font-bold text-center mb-4 text-black">Leaderboard</h2>
+    <div className="absolute top-10 right-10 bg-white p-4 shadow-lg rounded-lg">
+      <h2 className="text-lg font-bold mb-2">Leaderboard</h2>
       <ul>
-        {scores.map((player, index) => (
-          <li key={index} className="flex justify-between py-1 text-black">
-            <span className="font-semibold">{player.name}</span>
-            <span>{player.score}</span>
-          </li>
-        ))}
+        {scores.length === 0 ? (
+          <li className="text-gray-500">Loading...</li>
+        ) : (
+          scores.map((entry, index) => (
+            <li key={entry.walletAddress} className="text-sm">
+              {index + 1}. {entry.walletAddress.substring(0, 6)}... - {entry.score} pts
+            </li>
+          ))
+        )}
       </ul>
-      <button className="w-full mt-4 p-2 bg-blue-500 text-white rounded" onClick={() => router.push("/_chopin/logout")}>
-        logout
-      </button>
     </div>
   );
-};
-
-export default Leaderboard;
+}
