@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import tutorialGif from '../assets/HaiClick-tutorial.gif';
+import clickGif from '../assets/click.gif';
 
 interface ModalProps {
   show: boolean;
@@ -20,6 +22,10 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, onContinue }) => {
       >
         <h2 className="text-2xl font-bold mb-4 text-black">Taking a Break</h2>
         <p className="mb-4 text-black">Your progress is saved. Do you want to continue?</p>
+        <div className="relative mb-4">
+          <img src={tutorialGif.src} alt="Tutorial" className="w-full h-auto rounded-lg" />
+          <img src={clickGif.src} alt="Click" className="absolute bottom-4 right-4 w-24 h-25" />
+        </div>
         <div className="flex justify-end space-x-4">
           <button
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
