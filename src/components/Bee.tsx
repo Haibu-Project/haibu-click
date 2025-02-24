@@ -82,6 +82,7 @@ const Bee: React.FC<BeeProps> = ({ frame, lift, setLift, onFall, isPaused }) => 
         userSelect: "none", 
       }}
     >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={frames[frame % frames.length].src} alt="Bee frame" style={{ width: "100%", height: "100%", pointerEvents: "none", userSelect: "none" }} draggable="false" />
     </div>
   );
