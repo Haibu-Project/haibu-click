@@ -17,9 +17,8 @@ export default function VerifyCode() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // ✅ Extract email and username safely from URL
-  const cleanEmail = searchParams.get("email") ?? "";
-  const cleanUsername = searchParams.get("username") ?? "";
+  const cleanEmail = searchParams?.get("email") ?? "";
+  const cleanUsername = searchParams?.get("username") ?? "";
 
   const [formState, createFormSetter] = useFormSetter<FormState>({
     email: cleanEmail,
@@ -29,11 +28,11 @@ export default function VerifyCode() {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   const [result, setResult] = useState<{ user?: any } | null>(null);
 
-  console.log("Email:", cleanEmail);
-  console.log("Username:", cleanUsername);
-  console.log("Stored Code:", localStorage.getItem("verificationCode"));
+
+
 
   const handleVerifyCode = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -139,7 +138,7 @@ export default function VerifyCode() {
             required
           />
           <div className="flex justify-center">
-            <SimpleButton isLoading={isLoading} disabled={isLoading}>
+            <SimpleButton isLoading={isLoading} >
               Verify Code
             </SimpleButton>
           </div>

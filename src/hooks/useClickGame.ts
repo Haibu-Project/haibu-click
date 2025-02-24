@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
-import { Oracle } from "@chopinframework/next";
 
 const socket = io("wss://haibu-backend-production.up.railway.app", {
   transports: ["websocket"],
