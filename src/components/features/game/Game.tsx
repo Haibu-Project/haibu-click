@@ -7,14 +7,7 @@ import ScoreBoard from "@/components/ScoreBoard";
 import Leaderboard from "@/components/Leaderboard";
 import Modal from "@/components/Modal";
 import { useClickGame } from "@/hooks/useClickGame";
-
-const mockScores = [
-  { name: "Player1", score: 150 },
-  { name: "Player2", score: 120 },
-  { name: "Player3", score: 100 },
-  { name: "Player4", score: 80 },
-  { name: "Player5", score: 60 },
-];
+import { useLeaderboard } from "@/hooks/useLeaderboard"; // Importa el hook
 
 export default function Home({ walletAddress }: { walletAddress: string }) {
   const [frame, setFrame] = useState(0);
@@ -26,6 +19,7 @@ export default function Home({ walletAddress }: { walletAddress: string }) {
   const [beeKey, setBeeKey] = useState(0);
 
   const { score, sendClick } = useClickGame(walletAddress);
+  const { leaderboard, loading } = useLeaderboard(); // Obtiene los datos del leaderboard
 
   const handleClick = () => {
     if (isPaused) return;
@@ -100,7 +94,8 @@ export default function Home({ walletAddress }: { walletAddress: string }) {
       {jars.map((id) => (
         <HoneyJar key={id} id={id} onCatch={handleCatch} />
       ))}
-      <Leaderboard scores={mockScores} />
+      {/* Usa los datos reales del leaderboard */}
+      <Leaderboard scores={loading ? [] : leaderboard} />
       <Modal show={showModal} onClose={handleCloseModal} onContinue={handleContinue} />
     </div>
   );
