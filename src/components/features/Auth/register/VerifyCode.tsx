@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { BlurFade } from "@/components/magicui/blur-fade";
 import { BorderBeam } from "@/components/magicui/border-beam";
 import { SimpleButton } from "@/components/magicui/simple-button";
 import useFormSetter from "@/hooks/useFormSetter";
 import { useUserStore } from "@/store/user-store";
+import { useState, useEffect } from "react";
 
 interface FormState {
   email: string;
@@ -14,19 +14,36 @@ interface FormState {
   username: string;
 }
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
 export default function VerifyCode() {
   const router = useRouter();
-  const { email, username, name, surnames, setUser } = useUserStore(); 
+  const { email, username, name, surnames, verificationCode, setUserVerificationCode } = useUserStore();
+
+  useEffect(() => {
+    if (!verificationCode && typeof window !== "undefined") {
+      const storedCode = localStorage.getItem("verificationCode");
+      if (storedCode) {
+        setUserVerificationCode(storedCode);
+      }
+    }
+  }, [verificationCode, setUserVerificationCode]);
 
   const [formState, createFormSetter] = useFormSetter<FormState>({
     email: email,
-    code: localStorage.getItem("verificationCode") || "",
+    code: verificationCode || "",
     username: username,
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
-  const [result, setResult] = useState<{ user?: any } | null>(null);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [result, setResult] = useState<{ user?: User } | null>(null);
 
   const handleVerifyCode = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,7 +100,7 @@ export default function VerifyCode() {
             username: formState.username,
             walletAddress: loginData.address,
             email: formState.email,
-            name: name, 
+            name: name,
             surnames: surnames,
           }),
         });
@@ -93,12 +110,7 @@ export default function VerifyCode() {
           setResult(registerData.user);
           setMessage("");
 
-          setUser({
-            username: formState.username,
-            email: formState.email,
-            name: name,
-            surnames: surnames,
-          });
+          setUserVerificationCode('');
 
           router.push("/");
         } else {
@@ -135,7 +147,7 @@ export default function VerifyCode() {
             required
           />
           <div className="flex justify-center">
-            <SimpleButton isLoading={isLoading} >
+            <SimpleButton isLoading={isLoading}>
               Verify Code
             </SimpleButton>
           </div>

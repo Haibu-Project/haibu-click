@@ -15,7 +15,7 @@ interface FormState {
 
 export default function VerifyLogin() {
   const router = useRouter();
-  const { email, setUser } = useUserStore();
+  const { email } = useUserStore();
 
   const [formState, createFormSetter] = useFormSetter<FormState>({
     email: email, 
