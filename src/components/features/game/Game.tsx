@@ -94,7 +94,6 @@ export default function Home({ walletAddress }: { walletAddress: string }) {
       {jars.map((id) => (
         <HoneyJar key={id} id={id} onCatch={handleCatch} />
       ))}
-      {/* Usa los datos reales del leaderboard */}
       <Leaderboard scores={loading ? [] : leaderboard} />
       <Modal show={showModal} onClose={handleCloseModal} onContinue={handleContinue} />
     </div>

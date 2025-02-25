@@ -5,10 +5,10 @@ interface LeaderboardEntry {
   totalClicks: number;
   jarClicks: number;
   score: number;
+  username: string;
 }
 
 export function useLeaderboard() {
-  
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
 
