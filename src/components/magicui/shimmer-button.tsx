@@ -21,7 +21,7 @@ export const ShimmerCard = React.forwardRef<
       shimmerSize = "0.05em",
       shimmerDuration = "3s",
       borderRadius = "20px",
-      background = "linear-gradient(to top, #F49000, #F9B742)",
+      background = "linear-gradient(to top, #419DF2, #419DF2)",
       className,
       children,
       ...props
@@ -48,7 +48,6 @@ export const ShimmerCard = React.forwardRef<
         ref={ref}
         {...props}
       >
-        {/* Animated border shimmer */}
         <div className="absolute inset-0 overflow-hidden rounded-[var(--radius)]">
           <div className="absolute inset-0 h-[100cqh] animate-shimmer-slide [aspect-ratio:1] [border-radius:0] [mask:none]">
             <div className="absolute -inset-full w-auto rotate-0 animate-spin-around [background:conic-gradient(from_calc(270deg-(var(--spread)*0.5)),transparent_0,var(--shimmer-color)_var(--spread),transparent_var(--spread))] [translate:0_0]" />

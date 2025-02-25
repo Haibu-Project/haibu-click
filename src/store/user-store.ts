@@ -3,10 +3,12 @@ import { persist } from 'zustand/middleware';
 
 type UserState = {
   name: string;
-  lastname: string;
+  surnames: string;
   username: string;
   email: string;
+  verificationCode: string;
   setUser: (user: Partial<UserState>) => void;
+  setUserVerificationCode: (code: string) => void;
   clearUser: () => void;
 };
 
@@ -14,11 +16,13 @@ export const useUserStore = create<UserState>()(
   persist(
     (set) => ({
       name: '',
-      lastname: '',
+      surnames: '',
       username: '',
       email: '',
+      verificationCode: '',
       setUser: (user) => set((state) => ({ ...state, ...user })),
-      clearUser: () => set({ name: '', lastname: '', username: '', email: '' }),
+      setUserVerificationCode: (code) => set({ verificationCode: code }),
+      clearUser: () => set({ name: '', surnames: '', username: '', email: '', verificationCode: '' }),
     }),
     {
       name: 'user-storage',

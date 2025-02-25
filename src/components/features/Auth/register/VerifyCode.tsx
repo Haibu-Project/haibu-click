@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { BlurFade } from "@/components/magicui/blur-fade";
 import { BorderBeam } from "@/components/magicui/border-beam";
 import { SimpleButton } from "@/components/magicui/simple-button";
 import useFormSetter from "@/hooks/useFormSetter";
+import { useUserStore } from "@/store/user-store";
 
 interface FormState {
   email: string;
@@ -14,25 +15,18 @@ interface FormState {
 }
 
 export default function VerifyCode() {
-  const searchParams = useSearchParams();
   const router = useRouter();
-
-  const cleanEmail = searchParams?.get("email") ?? "";
-  const cleanUsername = searchParams?.get("username") ?? "";
+  const { email, username, name, surnames, setUser } = useUserStore(); 
 
   const [formState, createFormSetter] = useFormSetter<FormState>({
-    email: cleanEmail,
+    email: email,
     code: localStorage.getItem("verificationCode") || "",
-    username: cleanUsername,
+    username: username,
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   const [result, setResult] = useState<{ user?: any } | null>(null);
-
-
-
 
   const handleVerifyCode = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,7 +39,6 @@ export default function VerifyCode() {
 
     setIsLoading(true);
     try {
-
       const verifyRes = await fetch("/api/verify-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -66,7 +59,6 @@ export default function VerifyCode() {
 
       let loginData;
       try {
-        // 🔹 Authenticate with Chopin
         const loginRes = await fetch("/_chopin/login");
         console.log("Response from _chopin/login:", loginRes);
 
@@ -84,7 +76,6 @@ export default function VerifyCode() {
       }
 
       try {
-        // 🔹 Register user in Haibu Backend
         const registerRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -92,8 +83,8 @@ export default function VerifyCode() {
             username: formState.username,
             walletAddress: loginData.address,
             email: formState.email,
-            name: "Default Name",
-            surnames: "Default Surnames",
+            name: name, 
+            surnames: surnames,
           }),
         });
 
@@ -102,7 +93,13 @@ export default function VerifyCode() {
           setResult(registerData.user);
           setMessage("");
 
-          // ✅ Redirect after successful verification
+          setUser({
+            username: formState.username,
+            email: formState.email,
+            name: name,
+            surnames: surnames,
+          });
+
           router.push("/");
         } else {
           const errorData = await registerRes.json();

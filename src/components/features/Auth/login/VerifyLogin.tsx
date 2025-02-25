@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { BlurFade } from "@/components/magicui/blur-fade";
 import { BorderBeam } from "@/components/magicui/border-beam";
 import { SimpleButton } from "@/components/magicui/simple-button";
 import useFormSetter from "@/hooks/useFormSetter";
+import { useUserStore } from "@/store/user-store";
 
 interface FormState {
   email: string;
@@ -13,20 +14,18 @@ interface FormState {
 }
 
 export default function VerifyLogin() {
-  const searchParams = useSearchParams();
   const router = useRouter();
-
-  const cleanEmail = searchParams?.get("email") ?? "";
+  const { email, setUser } = useUserStore();
 
   const [formState, createFormSetter] = useFormSetter<FormState>({
-    email: cleanEmail,
+    email: email, 
     code: "",
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
 
-  console.log("Email obtenido:", cleanEmail);
+  console.log("Email obtenido del store:", email);
 
   const handleVerifyCode = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -7,7 +7,7 @@ import ScoreBoard from "@/components/ScoreBoard";
 import Leaderboard from "@/components/Leaderboard";
 import Modal from "@/components/Modal";
 import { useClickGame } from "@/hooks/useClickGame";
-import { useLeaderboard } from "@/hooks/useLeaderboard"; // Importa el hook
+import { useLeaderboard } from "@/hooks/useLeaderboard"; 
 
 export default function Home({ walletAddress }: { walletAddress: string }) {
   const [frame, setFrame] = useState(0);
@@ -19,17 +19,17 @@ export default function Home({ walletAddress }: { walletAddress: string }) {
   const [beeKey, setBeeKey] = useState(0);
 
   const { score, sendClick } = useClickGame(walletAddress);
-  const { leaderboard, loading } = useLeaderboard(); // Obtiene los datos del leaderboard
+  const { leaderboard, loading } = useLeaderboard(); 
 
   const handleClick = () => {
     if (isPaused) return;
     setFrame((prevFrame) => prevFrame + 1);
-    sendClick(false); // Click normal (1 punto)
+    sendClick(false);
     setBeeLift(true);
   };
 
   const handleCatch = (id: number) => {
-    sendClick(true); // Click en tarro (10 puntos)
+    sendClick(true); 
     setJars((prevJars) => prevJars.filter((jarId) => jarId !== id));
   };
 
