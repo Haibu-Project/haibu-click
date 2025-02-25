@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 interface LeaderboardEntry {
   walletAddress: string;
+  username: string;
   totalClicks: number;
   jarClicks: number;
   score: number;
@@ -18,7 +19,6 @@ export function useLeaderboard() {
         if (!response.ok) throw new Error("Failed to fetch leaderboard");
 
         const data: LeaderboardEntry[] = await response.json();
-
         setLeaderboard(data);
       } catch (error) {
         console.error("Error fetching leaderboard:", error);

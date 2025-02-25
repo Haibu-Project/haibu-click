@@ -1,5 +1,5 @@
 interface LeaderboardProps {
-  scores: { walletAddress: string; totalClicks: number; jarClicks: number; score: number }[];
+  scores: { walletAddress: string; username: string; totalClicks: number; jarClicks: number; score: number }[];
 }
 
 export default function Leaderboard({ scores }: LeaderboardProps) {
@@ -12,7 +12,7 @@ export default function Leaderboard({ scores }: LeaderboardProps) {
         ) : (
           scores.map((entry, index) => (
             <li key={entry.walletAddress} className="text-sm">
-              {index + 1}. {entry.walletAddress.substring(0, 6)}... - {entry.score} pts
+              {index + 1}. {entry.username} - {entry.score} pts
               <span className="text-yellow-500"> ({entry.jarClicks} 🍯)</span>
             </li>
           ))
