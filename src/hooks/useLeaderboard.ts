@@ -6,6 +6,7 @@ interface LeaderboardEntry {
   totalClicks: number;
   jarClicks: number;
   score: number;
+  username: string;
 }
 
 export function useLeaderboard() {
