@@ -171,6 +171,16 @@ function GameScreen() {
     router.push("/auth/login");
   }
 
+  useEffect(() => {
+    const jarInterval = setInterval(() => {
+      if (!isPaused) {
+        setJars((prevJars) => [...prevJars, Date.now()]);
+      }
+    }, 3000); // Add a new jar every 3 seconds
+
+    return () => clearInterval(jarInterval);
+  }, [isPaused]);
+
   return (
     <div
       className="relative w-full h-screen overflow-hidden select-none"
