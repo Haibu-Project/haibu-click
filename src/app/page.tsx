@@ -20,5 +20,5 @@ export default function Home() {
     return <div>Loading...</div>;
   }
 
-  return <Game walletAddress={address} />;
+  return <Game />;
 }
