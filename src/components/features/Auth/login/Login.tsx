@@ -7,7 +7,6 @@ import { SimpleButton } from "@/components/magicui/simple-button";
 import { ShinyButton } from "@/components/magicui/shiny-button";
 import useFormSetter from "@/hooks/useFormSetter";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/user-store";
 import { useAddress } from "@chopinframework/react";
 
@@ -16,7 +15,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
   const { setUser } = useUserStore();
-  const { address, isLoading: addressLoading, login } = useAddress();
+  const { login } = useAddress();
 
 
   const handleSendCode = async (e: React.FormEvent) => {
