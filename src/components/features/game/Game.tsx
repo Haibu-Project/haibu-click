@@ -63,7 +63,7 @@ export default function Home() {
               }),
             }
           );
-
+          setIsRegistered(true);
           if (!registerRes.ok) {
             console.error("Registration failed.");
             return;
