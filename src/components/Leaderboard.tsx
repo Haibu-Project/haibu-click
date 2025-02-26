@@ -1,10 +1,14 @@
 import { ShimmerCard } from "./magicui/shimmer-button";
+import { useAddress } from "@chopinframework/react";
+
 
 interface LeaderboardProps {
   scores: { walletAddress: string; username: string; totalClicks: number; jarClicks: number; score: number }[];
 }
 
 export default function Leaderboard({ scores }: LeaderboardProps) {
+  const { logout } = useAddress();
+
   const getRankStyle = (index: number) => {
     switch (index) {
       case 0:
@@ -48,6 +52,7 @@ export default function Leaderboard({ scores }: LeaderboardProps) {
             </table>
           </div>
         )}
+        <button className="" onClick={()=>logout}>logout</button>
       </div>
     </ShimmerCard>
   );

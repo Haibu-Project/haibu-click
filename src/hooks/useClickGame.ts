@@ -5,12 +5,12 @@ const socket = io("wss://haibu-backend-production.up.railway.app", {
   transports: ["websocket"],
 });
 
-export function useClickGame(walletAddress: string) {
+export function useClickGame(email: string) {
   const [score, setScore] = useState(0);
 
   useEffect(() => {
     socket.on("updateScore", (data) => {
-      if (data.walletAddress === walletAddress) {
+      if (data.email === email) {
         setScore(data.totalScore);
       }
     });
@@ -18,12 +18,12 @@ export function useClickGame(walletAddress: string) {
     return () => {
       socket.off("updateScore");
     };
-  }, [walletAddress]);
+  }, [email]);
 
   async function sendClick(isJar: boolean = false) {
     const timestamp = await Date.now();
 
-    socket.emit("click", { walletAddress, isJar, timestamp });
+    socket.emit("click", { email, isJar, timestamp });
   }
 
   return { score, sendClick };
