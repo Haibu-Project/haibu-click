@@ -1,26 +1,37 @@
-import { ShimmerCard } from "./magicui/shimmer-button";
+import { ShimmerCard } from "./magicui/shimmer-button"
+import { Button } from "@/components/ui/button"
+import { LogOut } from "lucide-react"
+import { useAddress } from "@chopinframework/react"
 
 interface LeaderboardProps {
-  scores: { walletAddress: string; username: string; totalClicks: number; jarClicks: number; score: number }[];
+  scores: { walletAddress: string; username: string; totalClicks: number; jarClicks: number; score: number }[]
+
 }
 
 export default function Leaderboard({ scores }: LeaderboardProps) {
+  const { logout } = useAddress()
   const getRankStyle = (index: number) => {
     switch (index) {
       case 0:
-        return "bg-amber-400 text-white font-bold px-3 py-1 rounded-full shadow-sm";
+        return "bg-amber-400 text-white font-bold px-3 py-1 rounded-full shadow-sm"
       case 1:
-        return "bg-gray-300 text-white font-bold px-3 py-1 rounded-full shadow-sm";
+        return "bg-gray-300 text-white font-bold px-3 py-1 rounded-full shadow-sm"
       case 2:
-        return "bg-amber-700 text-white font-bold px-3 py-1 rounded-full shadow-sm";
+        return "bg-amber-700 text-white font-bold px-3 py-1 rounded-full shadow-sm"
       default:
-        return "bg-blue-400/20 text-white font-bold px-3 py-1 rounded-full";
+        return "bg-blue-400/20 text-white font-bold px-3 py-1 rounded-full"
     }
-  };
+  }
 
   return (
     <ShimmerCard className="absolute flex flex-col top-10 right-10 overflow-hidden rounded-2xl w-[25rem] h-[20rem] border border-white/20 shadow-lg">
-        <h2 className="text-xl mb-3 font-bold text-white">Leaderboard</h2>
+      <div className="flex justify-between items-center mb-3 px-4 pt-4">
+        <h2 className="text-xl font-bold text-white">Leaderboard</h2>
+        <Button variant="ghost" size="icon" onClick={() => logout}  className="text-white hover:bg-white/10" title="Logout">
+          <LogOut className="h-5 w-5" />
+          <span className="sr-only">Logout</span>
+        </Button>
+      </div>
       <div className="bg-[#186CBD] rounded-xl flex-1 p-4">
         {scores.length === 0 ? (
           <div className="text-white/60">Loading...</div>
@@ -31,16 +42,12 @@ export default function Leaderboard({ scores }: LeaderboardProps) {
                 {scores.map((entry, index) => (
                   <tr key={entry.walletAddress} className="text-sm text-white">
                     <td className="py-1.5 pr-3 w-16">
-                      <span className={getRankStyle(index)}>
-                        #{index + 1}
-                      </span>
+                      <span className={getRankStyle(index)}>#{index + 1}</span>
                     </td>
                     <td className="py-1.5">{entry.username}</td>
                     <td className="py-1.5 text-right">
                       <span className="font-mono">{entry.score.toLocaleString()}</span>
-                      <span className="text-yellow-300 ml-2">
-                        ({entry.jarClicks} 🍯)
-                      </span>
+                      <span className="text-yellow-300 ml-2">({entry.jarClicks} 🍯)</span>
                     </td>
                   </tr>
                 ))}
@@ -50,5 +57,5 @@ export default function Leaderboard({ scores }: LeaderboardProps) {
         )}
       </div>
     </ShimmerCard>
-  );
+  )
 }

@@ -18,6 +18,7 @@ const HoneyJar: React.FC<HoneyJarProps> = ({ onCatch, id }) => {
           clearInterval(interval);
           return prevPosition; // Do not call onCatch if the jar is out of bounds
         }
+        console.log(`HoneyJar ${id} position: ${newLeft}%`); // Debugging position
         return { ...prevPosition, left: `${newLeft}%` };
       });
     }, 50);
