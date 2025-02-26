@@ -55,6 +55,7 @@ export default function Leaderboard({ scores }: LeaderboardProps) {
             </table>
           </div>
         )}
+        <button className="" onClick={()=>logout}>logout</button>
       </div>
     </ShimmerCard>
   )

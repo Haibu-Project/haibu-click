@@ -106,18 +106,20 @@ export default function Home() {
     return <div>Loading...</div>;
   }
 
-  return <GameScreen walletAddress={address} />;
+  return <GameScreen/>;
 }
 
-function GameScreen({ walletAddress }: { walletAddress: string }) {
+function GameScreen() {
+  const router = useRouter();
   const [frame, setFrame] = useState(0);
   const [jars, setJars] = useState<number[]>([]);
   const [beeLift, setBeeLift] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [beeKey, setBeeKey] = useState(0);
+  const { email } = useUserStore();
 
-  const { score, sendClick } = useClickGame(walletAddress);
+  const { score, sendClick } = useClickGame(email);
   const { leaderboard, loading } = useLeaderboard();
 
   const handleClick = () => {
@@ -152,6 +154,9 @@ function GameScreen({ walletAddress }: { walletAddress: string }) {
     setBeeKey((prevKey) => prevKey + 1);
     setBeeLift(true);
   };
+  if(!email){
+    router.push("/auth/login");
+  }
 
   useEffect(() => {
     const jarInterval = setInterval(() => {
