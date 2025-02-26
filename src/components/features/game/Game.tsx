@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAddress } from "@chopinframework/react";
 import { useUserStore } from "@/store/user-store";
@@ -28,10 +28,13 @@ export default function Home() {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/auth/exists/${address}`
         );
+
         if (res.ok) {
           setIsRegistered(true);
+          localStorage.setItem("isRegistered", JSON.stringify(true));
         } else {
           setIsRegistered(false);
+          localStorage.setItem("isRegistered", JSON.stringify(false));
         }
       } catch (error) {
         console.error("Error checking registration:", error);
@@ -44,11 +47,16 @@ export default function Home() {
 
   useEffect(() => {
     async function handleAuth() {
-      if (!address || addressLoading || isLoggingIn) return;
+      if (!address || addressLoading || isLoggingIn || isRegistered === null) return;
       setIsLoggingIn(true);
 
       try {
-        if(!isRegistered && name && surnames && username && email) {
+        if (!isRegistered) {
+          if (!name || !surnames || !username || !email) {
+            console.warn("Datos del usuario incompletos para el registro.");
+            return;
+          }
+
           const registerRes = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register/`,
             {
@@ -63,35 +71,39 @@ export default function Home() {
               }),
             }
           );
-          setIsRegistered(true);
+
           if (!registerRes.ok) {
             console.error("Registration failed.");
             return;
           }
-        }
-        if (isRegistered) {
-          const loginRes = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ email }),
-            }
-          );
 
-          if (!loginRes.ok) {
-            console.error("Login failed.");
-            return;
+          setIsRegistered(true);
+          localStorage.setItem("isRegistered", JSON.stringify(true));
+        }
+
+        // Solo hacer login si el usuario ya está registrado
+        const loginRes = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email }),
           }
+        );
 
-          const loginData = await loginRes.json();
-          setUser({
-            name: loginData.user?.name,
-            surnames: loginData.user?.surnames,
-            username: loginData.user?.username,
-            email: loginData.user?.email,
-          });
+        if (!loginRes.ok) {
+          console.error("Login failed.");
+          return;
         }
+
+        const loginData = await loginRes.json();
+        setUser({
+          name: loginData.user?.name,
+          surnames: loginData.user?.surnames,
+          username: loginData.user?.username,
+          email: loginData.user?.email,
+        });
+
       } catch (error) {
         console.error("Authentication error:", error);
       } finally {
@@ -106,7 +118,7 @@ export default function Home() {
     return <div>Loading...</div>;
   }
 
-  return <GameScreen/>;
+  return <GameScreen />;
 }
 
 function GameScreen() {
@@ -134,12 +146,12 @@ function GameScreen() {
     setJars((prevJars) => prevJars.filter((jarId) => jarId !== id));
   };
 
-  const handleBeeFall = useCallback(() => {
+  const handleBeeFall = () => {
     setIsPaused(true);
     setTimeout(() => {
       setShowModal(true);
     }, 500);
-  }, []);
+  };
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -154,7 +166,8 @@ function GameScreen() {
     setBeeKey((prevKey) => prevKey + 1);
     setBeeLift(true);
   };
-  if(!email){
+
+  if (!email) {
     router.push("/auth/login");
   }
 
