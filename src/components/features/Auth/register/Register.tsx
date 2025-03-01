@@ -83,6 +83,8 @@ export default function RegisterComponent() {
               Login
             </ShinyButton>
           </Link>
+
+          </div>Ï
             
           {message && <p className="mt-4 text-center text-red-500">{message}</p>}
         </form>
