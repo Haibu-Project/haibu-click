@@ -7,6 +7,8 @@ import { BlurFade } from "@/components/magicui/blur-fade";
 import { BorderBeam } from "@/components/magicui/border-beam";
 import { SimpleButton } from "@/components/magicui/simple-button";
 import useFormSetter from "@/hooks/useFormSetter";
+import Link from "next/link";
+import { ShinyButton } from "@/components/magicui/shiny-button";
 
 export default function RegisterComponent() {
   const [formState, createFormSetter] = useFormSetter({ name: "", surname: "", email: "", username: "" });
@@ -70,6 +72,18 @@ export default function RegisterComponent() {
           <div className="flex justify-center">
             <SimpleButton isLoading={isLoading}>Continue</SimpleButton>
           </div>
+
+
+          <p className="text-center mt-4">Do you have an Account?</p>
+
+          <div className="flex justify-center">
+
+          <Link className="mt-4" href="/auth/login">
+            <ShinyButton>
+              Login
+            </ShinyButton>
+          </Link>
+            
           {message && <p className="mt-4 text-center text-red-500">{message}</p>}
         </form>
       </div>
