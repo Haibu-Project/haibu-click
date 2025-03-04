@@ -84,7 +84,7 @@ export default function RegisterComponent() {
             </ShinyButton>
           </Link>
 
-          </div>Ï
+          </div>
             
           {message && <p className="mt-4 text-center text-red-500">{message}</p>}
         </form>
