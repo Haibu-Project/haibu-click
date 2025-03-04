@@ -153,13 +153,6 @@ function GameScreen() {
     }, 500);
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setIsPaused(false);
-    setBeeKey((prevKey) => prevKey + 1);
-    setBeeLift(true);
-  };
-
   const handleContinue = () => {
     setShowModal(false);
     setIsPaused(false);
@@ -204,7 +197,6 @@ function GameScreen() {
       <Leaderboard scores={loading ? [] : leaderboard} />
       <Modal
         show={showModal}
-        onClose={handleCloseModal}
         onContinue={handleContinue}
       />
     </div>
