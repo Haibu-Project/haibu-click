@@ -5,11 +5,10 @@ import clickGif from '../assets/click.gif';
 
 interface ModalProps {
   show: boolean;
-  onClose: () => void;
   onContinue: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ show, onClose, onContinue }) => {
+const Modal: React.FC<ModalProps> = ({ show, onContinue }) => {
   if (!show) return null;
 
   return (
@@ -34,12 +33,6 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, onContinue }) => {
             onClick={onContinue}
           >
             Continue
-          </button>
-          <button
-            className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700"
-            onClick={onClose}
-          >
-            Close
           </button>
         </div>
       </motion.div>
